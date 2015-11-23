@@ -12,17 +12,46 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.ArrayList;
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
+    List<String> shoppingLists;
+    ListView list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        shoppingLists = new ArrayList<>();
+        list = (ListView)findViewById(R.id.listView);
+        shoppingLists.add("Nytår");
+        shoppingLists.add("Jul");
+        shoppingLists.add("1 December");
+        shoppingLists.add("Nikolines fødsesldag");
+        shoppingLists.add("her fødsesldag");
+        shoppingLists.add("her fødsesldag");
+        shoppingLists.add("her ");
+        shoppingLists.add("her hdfhdfh");
+        shoppingLists.add("dfhfdhdh fødsesldag");
+        shoppingLists.add("herh hdf");
+        shoppingLists.add("hdfhher føhdfdsesldag");
+        shoppingLists.add("hehdfhr føhdfhdsesldag");
+
+        updateList();
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -32,6 +61,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void updateList()
+    {
+        list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, shoppingLists));
+        list.setOnItemClickListener(this);
     }
 
     @Override
@@ -90,5 +125,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this, "view clicked at #" + position, Toast.LENGTH_LONG).show();
+        shoppingLists.remove(position);
+        updateList();
     }
 }
