@@ -1,8 +1,7 @@
 package com.example.nikolai.shoppinglist;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,10 +125,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    //Metode til at starte ny Activity, når der er klikket på en indkøbsliste.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent intent = new Intent(this, ShoppingListActivity.class);
+        startActivity(intent);
+    }
+
+    /*
         Toast.makeText(this, "view clicked at #" + position, Toast.LENGTH_LONG).show();
         shoppingLists.remove(position);
         updateList();
-    }
+        */
 }
