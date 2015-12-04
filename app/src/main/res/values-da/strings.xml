@@ -2,4 +2,7 @@
 <resources>
     <string name="menu_shoppingList">Indkøbslister</string>
     <string name="menu_user">Bruger</string>
+    <string name="bottom_CreateShoppingList">Opret</string>
+    <string name="Item_AddItem">Tilføj Produkt</string>
+    <string name="delete">Slet</string>
 </resources>

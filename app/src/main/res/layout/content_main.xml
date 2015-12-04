@@ -13,7 +13,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/bottom_CreateShoppingList"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_shoppingList"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/bottom_CreateShoppingList"
+        android:layout_toStartOf="@+id/bottom_CreateShoppingList" />
+
+    <Button
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bottom_CreateShoppingList"
+        android:layout_alignTop="@+id/text_shoppingList"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/bottom_CreateShoppingList"
+        android:onClick="createShoppingList"
+        />
 </RelativeLayout>

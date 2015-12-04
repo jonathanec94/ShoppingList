@@ -16,8 +16,11 @@ import android.view.MenuItem;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+
+import static com.example.nikolai.shoppinglist.dataSourceLayer.ShoppingListDbHelper.*;
 
 import com.example.nikolai.shoppinglist.dataSourceLayer.ShoppingListDb;
 
@@ -39,33 +42,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         db = new ShoppingListDb(this);
         db.open();
 
-
-
-
-        db.createShoppingList("Nytår ", "31-12-2015", "0");
-        db.createShoppingList("jul ", "24-12-2015", "0");
-        db.createShoppingList("Sannes Fødselsdag ", "01-02-2016","0");
+//        db.createShoppingList("Nytår ", "31-12-2015", "0");
+  //      db.createShoppingList("jul ", "24-12-2015", "0");
+    //    db.createShoppingList("Sannes Fødselsdag ", "01-02-2016","0");
 
         shoppingLists = new ArrayList<>();
-
-        cursor = db.getShoppingLists();
-        startManagingCursor(cursor);
-        adapter = new SimpleCursorAdapter(this, R.layout.content_main, cursor, FROM, 0, 0);
-        list.setAdapter(adapter);
-
-
-        list = (ListView)findViewById(R.id.listView);
-
+        loadShoppingLists();
 
         updateList();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
 
-
-
-
+    public void  loadShoppingLists()
+    {
+        cursor = db.getShoppingLists();
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            shoppingLists.add(cursor.getString(cursor.getColumnIndex(list_NAME_COLUMN))+" "+cursor.getString(cursor.getColumnIndex(list_ID_COLUMN)));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        list = (ListView)findViewById(R.id.listView);
     }
 
     private void updateList()
@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         Intent intent = new Intent(this, ShoppingListActivity.class);
         startActivity(intent);
     }
@@ -104,6 +103,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void createShoppingList(View view)
+    {
+        EditText mEdit;
+        mEdit = (EditText)findViewById(R.id.text_shoppingList);
+        db.createShoppingList(mEdit.getText().toString(),"04-12-2015", "0");
+        loadShoppingLists();
+        updateList();
     }
 
 }

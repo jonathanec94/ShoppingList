@@ -59,12 +59,6 @@ public class ShoppingListDb implements AutoCloseable {
 	{
 		return db.rawQuery("select * from "+TABLE_List, null);
 	}
-	/*
 
-	
-	public Cursor getHighScores() {
-		return db.rawQuery("select * from "+TABLE, null);
-		}
-		*/
 	
 	}

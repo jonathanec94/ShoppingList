@@ -2,4 +2,7 @@
 <resources>
     <string name="menu_shoppingList">Shopping lists</string>
     <string name="menu_user">User</string>
+    <string name="bottom_CreateShoppingList">Create</string>
+    <string name="Item_AddItem">Add Item</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -14,13 +14,17 @@ public class ShoppingListActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
-
-
     }
 
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         return false;
+    }
+
+
+    public void createItemInShoppingList()
+    {
+
     }
 }
