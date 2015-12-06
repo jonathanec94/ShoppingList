@@ -5,10 +5,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,11 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
-import static com.example.nikolai.shoppinglist.dataSourceLayer.ShoppingListDbHelper.*;
-
-import com.example.nikolai.shoppinglist.dataSourceLayer.ShoppingListDb;
+import com.example.nikolai.shoppinglist.domain.Facade;
+import com.example.nikolai.shoppinglist.entity.ShoppingList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,55 +26,57 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ListView list;
     Cursor cursor;
     Adapter adapter;
-    private ShoppingListDb db;
+    ArrayList<ShoppingList> loadedShoppingLists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new ShoppingListDb(this);
-        db.open();
-
-//        db.createShoppingList("Nytår ", "31-12-2015", "0");
-  //      db.createShoppingList("jul ", "24-12-2015", "0");
-    //    db.createShoppingList("Sannes Fødselsdag ", "01-02-2016","0");
-
+        Facade.getInstance().setContext(this);
+        Facade.getInstance().openDB();
         shoppingLists = new ArrayList<>();
-        loadShoppingLists();
 
-        updateList();
+
+        list = (ListView)findViewById(R.id.listView_detail);
+
+        loadShoppingLists();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
-    public void  loadShoppingLists()
+    public  void loadShoppingLists()
     {
-        cursor = db.getShoppingLists();
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            shoppingLists.add(cursor.getString(cursor.getColumnIndex(list_NAME_COLUMN))+" "+cursor.getString(cursor.getColumnIndex(list_ID_COLUMN)));
-            cursor.moveToNext();
+        Facade.getInstance().loadShoppingLists();
+        shoppingLists = new ArrayList<>();
+        loadedShoppingLists = Facade.getInstance().getShoppingLists();
+        for(int i = 0; i < loadedShoppingLists.size(); i++)
+        {
+            shoppingLists.add(loadedShoppingLists.get(i).getName());
         }
-        cursor.close();
-        list = (ListView)findViewById(R.id.listView);
+        updateList();
     }
 
     private void updateList()
     {
+
         list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, shoppingLists));
         list.setOnItemClickListener(this);
     }
 
+
+
+
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, ShoppingListActivity.class);
+
+        Facade.getInstance().setSelectedShoppingList(loadedShoppingLists.get(position).getId());
         startActivity(intent);
     }
-
-
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
@@ -109,9 +105,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     {
         EditText mEdit;
         mEdit = (EditText)findViewById(R.id.text_shoppingList);
-        db.createShoppingList(mEdit.getText().toString(),"04-12-2015", "0");
+        Facade.getInstance().createShoppingList(mEdit.getText().toString());
         loadShoppingLists();
-        updateList();
     }
 
 }

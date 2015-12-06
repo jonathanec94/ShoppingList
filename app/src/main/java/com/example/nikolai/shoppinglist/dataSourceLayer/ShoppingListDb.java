@@ -40,8 +40,6 @@ public class ShoppingListDb implements AutoCloseable {
 	{
 		try
 		{
-
-
 		ContentValues values = new ContentValues();
 		values.put(list_NAME_COLUMN, name);
 		values.put(list_DATO_COLUMN, dato);
@@ -55,10 +53,31 @@ public class ShoppingListDb implements AutoCloseable {
 		}
 	}
 
+
+
+	public long createDetail(String product, int list_fk)
+	{
+		try
+		{
+			ContentValues values = new ContentValues();
+			values.put(detail_product_COLUMN, product);
+			values.put(detail_size_COLUMN, "0");
+			values.put(detail_image_COLUMN, "0");
+			values.put(detail_list_fk_COLUMN, list_fk);
+			return db.insert(TABLE_Details, null, values);
+		}
+		catch (SQLiteException sqle)
+		{
+			Log.w(LOG_TAG, "Could not create "+ TABLE_Details + " "+sqle.getMessage());
+			return -1;
+		}
+	}
+
 	public Cursor getShoppingLists()
 	{
 		return db.rawQuery("select * from "+TABLE_List, null);
 	}
+	public Cursor getDetails(String shoppingList_FK){return db.rawQuery("select * from "+TABLE_Details + " where "+detail_list_fk_COLUMN + " = "+shoppingList_FK, null);}
 
 	
 	}

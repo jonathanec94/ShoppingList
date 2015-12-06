@@ -12,7 +12,7 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
+        android:id="@+id/listView_detail"
         android:layout_below="@+id/bottom_CreateItemInShoppingList"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -22,29 +22,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_addItem"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/listView_detail"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/bottom_CreateItemInShoppingList"
-        android:layout_toStartOf="@+id/bottom_CreateItemInShoppingList" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Item_AddItem"
-        android:layout_alignTop="@+id/text_addItem"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:id="@+id/bottom_CreateItemInShoppingList"
         android:onClick="createItemInShoppingList"
+        android:layout_below="@+id/textView_shoppingListHeadline"
+        android:layout_alignRight="@+id/listView_detail"
+        android:layout_alignEnd="@+id/listView_detail"
+        android:background="#009900"
         />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="@string/delete"
         android:id="@+id/button2"
-        android:layout_below="@+id/listView"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/listView_detail"
+        android:layout_centerHorizontal="true"
+        android:background="#990000"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="kokoko"
+        android:id="@+id/textView_shoppingListHeadline"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
