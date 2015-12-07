@@ -76,15 +76,17 @@ public class Facade {
     {
 
         shoppingListDetail = new ArrayList<>();
-       // cursor = ;
+       cursor = db.getDetails(selectedShoppingList);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
-            //shoppingLists.add(new ShoppingList(cursor.getString(cursor.getColumnIndex(list_ID_COLUMN)),cursor.getString(cursor.getColumnIndex(list_NAME_COLUMN)),cursor.getString(cursor.getColumnIndex(list_DATO_COLUMN)),cursor.getString(cursor.getColumnIndex(list_user_fk_COLUMN))));
+            shoppingListDetail.add(new ShoppingListDetail(cursor.getInt(cursor.getColumnIndex(detail_ID_COLUMN)),cursor.getString(cursor.getColumnIndex(detail_product_COLUMN)),cursor.getInt(cursor.getColumnIndex(detail_list_fk_COLUMN))));
             cursor.moveToNext();
         }
         cursor.close();
-        return  null;
+        return  shoppingListDetail;
     }
+
+
 
 
     public ArrayList<ShoppingList> getShoppingLists()

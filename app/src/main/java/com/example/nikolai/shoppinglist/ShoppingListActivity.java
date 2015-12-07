@@ -32,7 +32,7 @@ public class ShoppingListActivity extends AppCompatActivity  implements AdapterV
 
 
         Facade.getInstance().setContext(this);
-        Facade.getInstance().openDB();
+       Facade.getInstance().openDB();
 
         TextView headline = (TextView)findViewById(R.id.textView_shoppingListHeadline);
       ShoppingList shoppingList = Facade.getInstance().findShoppingList(Facade.getInstance().getSelectedShoppingList());
@@ -40,21 +40,23 @@ public class ShoppingListActivity extends AppCompatActivity  implements AdapterV
 
 
         list = (ListView)findViewById(R.id.listView_detail);
-        loadShoppingListDetails();
+       loadShoppingListDetails();
     }
 
     public  void loadShoppingListDetails()
     {
-        Facade.getInstance().loadShoppingLists();
         shoppingListDeatails = new ArrayList<>();
-        /*
-        loadedShoppingListDetails = Facade.getInstance().getShoppingLists();
 
-        for(int i = 0; i < loadedShoppingLists.size(); i++)
+        loadedShoppingListDetails = Facade.getInstance().LoadshoppingListDetail();
+
+        if(loadedShoppingListDetails.size() != 0)
         {
-            shoppingLists.add(loadedShoppingLists.get(i).getName());
+          for(int i = 0; i < loadedShoppingListDetails.size(); i++)
+          {
+          shoppingListDeatails.add(loadedShoppingListDetails.get(i).getProduct());
+          }
         }
-        */
+
         updateList();
     }
 
@@ -71,6 +73,7 @@ public class ShoppingListActivity extends AppCompatActivity  implements AdapterV
         EditText mEdit;
         mEdit = (EditText)findViewById(R.id.text_addItem);
         Facade.getInstance().createDetail(mEdit.getText().toString());
+        loadShoppingListDetails();
 
     }
 

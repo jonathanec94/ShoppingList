@@ -70,9 +70,9 @@ public class ShoppingListDbHelper extends SQLiteOpenHelper{
             "create table "+TABLE_Details+" ("+
                     detail_ID_COLUMN+" integer primary key autoincrement, "+
                     detail_product_COLUMN+" text not null,"+
-                    detail_image_COLUMN+" text not null, "+
+                 //   detail_image_COLUMN+" text not null, "+
                     detail_list_fk_COLUMN+" integer,"+
-                    detail_size_COLUMN+" text not null,"+
+                   // detail_size_COLUMN+" text not null,"+
                     "FOREIGN KEY("+detail_list_fk_COLUMN + ") REFERENCES "+TABLE_List+"("+list_ID_COLUMN+"));";
 
     private static final String DROP_TABLE_SQL_detail = "drop table if exists "+TABLE_Details+";";
@@ -96,6 +96,7 @@ public class ShoppingListDbHelper extends SQLiteOpenHelper{
             }
         Log.v(LOG_TAG, "Database " + DATABASE + " created");
         }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

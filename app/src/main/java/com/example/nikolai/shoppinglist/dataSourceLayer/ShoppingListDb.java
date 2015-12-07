@@ -61,8 +61,8 @@ public class ShoppingListDb implements AutoCloseable {
 		{
 			ContentValues values = new ContentValues();
 			values.put(detail_product_COLUMN, product);
-			values.put(detail_size_COLUMN, "0");
-			values.put(detail_image_COLUMN, "0");
+		//	values.put(detail_size_COLUMN, "0");
+		//	values.put(detail_image_COLUMN, "0");
 			values.put(detail_list_fk_COLUMN, list_fk);
 			return db.insert(TABLE_Details, null, values);
 		}
@@ -77,7 +77,7 @@ public class ShoppingListDb implements AutoCloseable {
 	{
 		return db.rawQuery("select * from "+TABLE_List, null);
 	}
-	public Cursor getDetails(String shoppingList_FK){return db.rawQuery("select * from "+TABLE_Details + " where "+detail_list_fk_COLUMN + " = "+shoppingList_FK, null);}
+	public Cursor getDetails(int shoppingList_FK){return db.rawQuery("select * from "+TABLE_Details + " where "+detail_list_fk_COLUMN + " = "+shoppingList_FK, null);}
 
 	
 	}
