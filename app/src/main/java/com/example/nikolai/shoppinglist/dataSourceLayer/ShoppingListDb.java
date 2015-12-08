@@ -78,6 +78,10 @@ public class ShoppingListDb implements AutoCloseable {
 		return db.rawQuery("select * from "+TABLE_List, null);
 	}
 	public Cursor getDetails(int shoppingList_FK){return db.rawQuery("select * from "+TABLE_Details + " where "+detail_list_fk_COLUMN + " = "+shoppingList_FK, null);}
+	public void  deleteShoppinglist(int id)
+	{
+		db.execSQL("DELETE FROM " +TABLE_List + " WHERE "+list_ID_COLUMN +" = "+id +";");
+	}
 
 	
 	}

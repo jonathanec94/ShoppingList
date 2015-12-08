@@ -100,6 +100,10 @@ public class Facade {
     }
 
     public void createDetail(String product) {db.createDetail(product, selectedShoppingList);}
+    public  void deleteShoppinglist()
+    {
+        db.deleteShoppinglist(selectedShoppingList);
+    }
 
 
 

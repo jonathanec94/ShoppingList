@@ -1,5 +1,6 @@
 package com.example.nikolai.shoppinglist;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -75,6 +76,13 @@ public class ShoppingListActivity extends AppCompatActivity  implements AdapterV
         Facade.getInstance().createDetail(mEdit.getText().toString());
         loadShoppingListDetails();
 
+    }
+
+    public void DeleteShoppinglist(View view)
+    {
+     Facade.getInstance().deleteShoppinglist();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
