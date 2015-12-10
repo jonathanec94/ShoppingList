@@ -2,7 +2,12 @@
 <resources>
     <string name="menu_shoppingList">Indkøbslister</string>
     <string name="menu_user">Bruger</string>
-    <string name="bottom_CreateShoppingList">Opret</string>
-    <string name="Item_AddItem">Tilføj Produkt</string>
+    <string name="create">Opret</string>
+    <string name="item_AddItem">Tilføj Produkt</string>
     <string name="delete">Slet</string>
+    <string name="userName">Brugernavn</string>
+    <string name ="password">Kodeord</string>
+    <string name="user">Bruger</string>
+    <string name="login">Log ind</string>
+    <string name="loginError">Brugernavn/kodeord er forkert</string>
 </resources>

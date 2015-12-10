@@ -7,7 +7,7 @@
         android:icon="@drawable/shopping_cart"
         android:title="@string/menu_shoppingList"
         android:showAsAction="ifRoom"/>
-    <item android:id="@+id/help"
+    <item android:id="@+id/menuUser"
         android:icon="@drawable/shopping_cart"
         android:title="@string/menu_user" />
 </menu>

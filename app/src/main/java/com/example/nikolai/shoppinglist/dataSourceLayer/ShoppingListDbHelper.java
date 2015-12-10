@@ -16,15 +16,14 @@ public class ShoppingListDbHelper extends SQLiteOpenHelper{
 
     // bruger table
     public static final String TABLE_user = "User";
-    public static final String user_ID_COLUMN = "_id";
+   // public static final String user_ID_COLUMN = "_id";
     public static final String user_NAME_COLUMN = "userName";
     public static final String user_PASSWORD_COLUMN = "password";
 
 
     private static final String CREATE_TABLE_SQL =
             "create table "+TABLE_user+" ("+
-                    user_ID_COLUMN+" integer primary key autoincrement, "+
-                    user_NAME_COLUMN+" text not null, "+
+                    user_NAME_COLUMN+" text primary key, "+
                     user_PASSWORD_COLUMN+" integer not null );"
 
             ;
@@ -47,8 +46,8 @@ public class ShoppingListDbHelper extends SQLiteOpenHelper{
                     list_ID_COLUMN+" integer primary key autoincrement, "+
                     list_NAME_COLUMN+" text not null, "+
                     list_DATO_COLUMN+" text not null, "+
-                    list_user_fk_COLUMN+","+
-                    "FOREIGN KEY("+list_user_fk_COLUMN + ") REFERENCES "+TABLE_user+"("+user_ID_COLUMN+"));";
+                    list_user_fk_COLUMN+" text,"+
+                    "FOREIGN KEY("+list_user_fk_COLUMN + ") REFERENCES "+TABLE_user+"("+user_NAME_COLUMN+"));";
                    // list_DATO_COLUMN+" text not null );";
     private static final String DROP_TABLE_SQL_list =
             "drop table if exists "+TABLE_List+";";

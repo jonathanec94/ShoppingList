@@ -8,11 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Build;
 import android.util.Log;
+
+import java.sql.SQLException;
+
 import  static com.example.nikolai.shoppinglist.dataSourceLayer.ShoppingListDbHelper.*;
 
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class ShoppingListDb implements AutoCloseable {
-	private static final String LOG_TAG = "HighScoreDb";
+	private static final String LOG_TAG = "ShoppingListDB";
 	private SQLiteDatabase db;
 	private final Context context;
 	private final ShoppingListDbHelper helper;
@@ -73,6 +76,21 @@ public class ShoppingListDb implements AutoCloseable {
 		}
 	}
 
+	public boolean createUser(String userName, String password)
+	{
+			// create user
+			ContentValues values = new ContentValues();
+			values.put(user_NAME_COLUMN,userName);
+			values.put(user_PASSWORD_COLUMN,password);
+			try{
+			db.insert(TABLE_user, null, values);
+				return true;
+			}catch(SQLiteException sqle){
+				Log.w(LOG_TAG, "Could not create "+ TABLE_user + " "+sqle.getMessage());
+				return false;
+		}
+	}
+
 	public Cursor getShoppingLists()
 	{
 		return db.rawQuery("select * from "+TABLE_List, null);
@@ -81,6 +99,21 @@ public class ShoppingListDb implements AutoCloseable {
 	public void  deleteShoppinglist(int id)
 	{
 		db.execSQL("DELETE FROM " +TABLE_List + " WHERE "+list_ID_COLUMN +" = "+id +";");
+	}
+
+	public boolean  userLogon(String userName, String password)
+	{
+
+		Cursor cursor =	db.rawQuery("select * from " + TABLE_user + " where " + user_NAME_COLUMN + " = '" + userName + "' and " + user_PASSWORD_COLUMN + " = '" + password+"'", null);
+
+		if(cursor != null)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+
 	}
 
 	

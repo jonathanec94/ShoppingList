@@ -20,6 +20,15 @@
         </activity>
         <activity android:name=".ShoppingListActivity" >
         </activity>
+        <activity
+            android:name=".MenuActivity"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".UserFormActivity" >
+        </activity>
+        <activity android:name=".UserLoggedInActivity" >
+        </activity>
     </application>
 
 </manifest>

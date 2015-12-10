@@ -1,12 +1,8 @@
 package com.example.nikolai.shoppinglist;
 
 import android.content.Intent;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +20,7 @@ import com.example.nikolai.shoppinglist.entity.ShoppingListDetail;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingListActivity extends AppCompatActivity  implements AdapterView.OnItemClickListener  {
+public class ShoppingListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener  {
     ListView list;
     List<String> shoppingListDeatails;
     ArrayList<ShoppingListDetail> loadedShoppingListDetails;
@@ -65,7 +61,7 @@ public class ShoppingListActivity extends AppCompatActivity  implements AdapterV
             case R.id.new_game:
                 //newGame();
                 return true;
-            case R.id.help:
+            case R.id.menuUser:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -102,6 +98,7 @@ public class ShoppingListActivity extends AppCompatActivity  implements AdapterV
         EditText mEdit;
         mEdit = (EditText)findViewById(R.id.text_addItem);
         Facade.getInstance().createDetail(mEdit.getText().toString());
+        mEdit.setText("");
         loadShoppingListDetails();
 
     }
@@ -115,6 +112,7 @@ public class ShoppingListActivity extends AppCompatActivity  implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent intent = new Intent(this, UserFormActivity.class);
+        startActivity(intent);
     }
 }

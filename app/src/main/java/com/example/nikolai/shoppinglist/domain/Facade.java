@@ -8,6 +8,7 @@ import com.example.nikolai.shoppinglist.R;
 import com.example.nikolai.shoppinglist.dataSourceLayer.ShoppingListDb;
 import com.example.nikolai.shoppinglist.entity.ShoppingList;
 import com.example.nikolai.shoppinglist.entity.ShoppingListDetail;
+import com.example.nikolai.shoppinglist.entity.User;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class Facade {
     Cursor cursor;
     Context context;
     int selectedShoppingList;
+    User userLoggedOn = null;
     private Facade(){
 
     }
@@ -100,12 +102,35 @@ public class Facade {
     }
 
     public void createDetail(String product) {db.createDetail(product, selectedShoppingList);}
+
     public  void deleteShoppinglist()
     {
         db.deleteShoppinglist(selectedShoppingList);
     }
 
+    public boolean createUser(String userName, String password) {
+        boolean created = db.createUser(userName, password);
 
+        if (created){userLoggedOn = new User(userName, password);}
+
+        return created;
+    }
+
+    public  User getUser()
+    {
+        return userLoggedOn;
+    }
+
+    public boolean userLogon(String userName, String password)
+    {
+       boolean logon = db.userLogon(userName, password);
+        if(logon)
+        {
+            userLoggedOn = new User(userName, password);
+            return true;
+        }
+        return false;
+    }
 
 
 

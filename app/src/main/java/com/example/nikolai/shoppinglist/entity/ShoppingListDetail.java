@@ -15,8 +15,6 @@ public class ShoppingListDetail {
     {
         this._id = _id;
         this.product = product;
-
-
         this.list_fk = list_fk;
     }
 

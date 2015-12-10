@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.nikolai.shoppinglist.UserFormActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/user"
+        android:id="@+id/textView_userH1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/userName"
+        android:id="@+id/textView_userName"
+        android:layout_below="@+id/textView_userH1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/password"
+        android:id="@+id/textView_passcode"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/textView_userName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_username"
+        android:layout_alignBottom="@+id/textView_userName"
+        android:layout_alignLeft="@+id/textView_userH1"
+        android:layout_alignStart="@+id/textView_userH1"
+        android:layout_alignRight="@+id/editText_password"
+        android:layout_alignEnd="@+id/editText_password" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText_password"
+        android:layout_alignBottom="@+id/textView_passcode"
+        android:layout_toRightOf="@+id/textView_passcode"
+        android:layout_toEndOf="@+id/textView_passcode" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create"
+        android:id="@+id/button_createUser"
+        android:layout_above="@+id/button_login"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="createUser"
+        android:background="#009900"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:id="@+id/button_login"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#a0ade2"
+        android:onClick="userLogon"
+        android:layout_alignRight="@+id/button_createUser"
+        android:layout_alignEnd="@+id/button_createUser"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textView_loginStatus"
+        android:layout_alignBottom="@+id/button_login"
+        android:layout_toRightOf="@+id/button_login"
+        android:layout_alignRight="@+id/textView_userH1"
+        android:layout_alignEnd="@+id/textView_userH1"
+        android:textColor="#a91113"
+        />
+</RelativeLayout>

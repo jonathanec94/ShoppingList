@@ -3,12 +3,8 @@ package com.example.nikolai.shoppinglist;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.MenuInflater;
 import android.view.View;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,7 +17,7 @@ import com.example.nikolai.shoppinglist.entity.ShoppingList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends MenuActivity implements AdapterView.OnItemClickListener {
     List<String> shoppingLists;
     ListView list;
     Cursor cursor;
@@ -29,14 +25,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<ShoppingList> loadedShoppingLists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Facade.getInstance().setContext(this);
         Facade.getInstance().openDB();
         shoppingLists = new ArrayList<>();
-
 
         list = (ListView)findViewById(R.id.listView_detail);
 
@@ -60,15 +54,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void updateList()
-    {
-
-        list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, shoppingLists));
+    {list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, shoppingLists));
         list.setOnItemClickListener(this);
     }
-
-
-
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,29 +65,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Facade.getInstance().setSelectedShoppingList(loadedShoppingLists.get(position).getId());
         startActivity(intent);
     }
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        // menu.add("hello").setIcon(R.drawable.newshoping);
-        //menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.shopping_cart));
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.new_game:
-                //newGame();
-                return true;
-            case R.id.help:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     public void createShoppingList(View view)
     {
@@ -107,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mEdit = (EditText)findViewById(R.id.text_shoppingList);
         Facade.getInstance().createShoppingList(mEdit.getText().toString());
         loadShoppingLists();
+        mEdit.setText("");
     }
 
 }
