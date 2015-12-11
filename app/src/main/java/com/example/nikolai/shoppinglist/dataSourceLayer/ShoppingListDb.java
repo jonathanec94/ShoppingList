@@ -56,6 +56,17 @@ public class ShoppingListDb implements AutoCloseable {
 		}
 	}
 
+	public boolean deleteShoppinglistDetail(String id){
+		try {
+			db.execSQL("DELETE FROM " + TABLE_Details + " WHERE " + detail_ID_COLUMN + " = " + id + ";");
+		}catch (SQLiteException sqle)
+		{
+			Log.w(LOG_TAG, "Could not delete "+ TABLE_Details + " "+sqle.getMessage());
+			return false;
+		}
+		return true;
+	}
+
 
 
 	public long createDetail(String product, int list_fk)
@@ -82,9 +93,9 @@ public class ShoppingListDb implements AutoCloseable {
 			ContentValues values = new ContentValues();
 			values.put(user_NAME_COLUMN,userName);
 			values.put(user_PASSWORD_COLUMN,password);
-			try{
+		try {
 			db.insert(TABLE_user, null, values);
-				db.rawQuery("UPDATE "+TABLE_List + " set "+list_user_fk_COLUMN +" = + '" +userName +"'",null);
+			db.rawQuery("UPDATE " + TABLE_List + " set " + list_user_fk_COLUMN + " = + '" +userName +"'",null);
 				return true;
 			}catch(SQLiteException sqle){
 				Log.w(LOG_TAG, "Could not create "+ TABLE_user + " "+sqle.getMessage());

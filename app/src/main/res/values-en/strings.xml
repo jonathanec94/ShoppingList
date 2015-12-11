@@ -11,4 +11,9 @@
     <string name="login">Login</string>
     <string name="loginError">Wrong username/password</string>
     <string name ="createUserError">Error creating user</string>
+
+    <string name="deleteItemMsg">Are you sure you want to delete item?</string>
+
+    <string name="addItemErrorheadLine">Item not created</string>
+    <string name="addItemErrorMsg">Insert item</string>
 </resources>

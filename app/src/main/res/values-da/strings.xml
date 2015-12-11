@@ -11,4 +11,8 @@
     <string name="login">Log ind</string>
     <string name="loginError">Brugernavn/kodeord er forkert</string>
     <string name ="createUserError">Fejl i oprettelsen</string>
+
+    <string name="deleteItemMsg">Er du sikker på at du vil slette varen?</string>
+    <string name="addItemErrorheadLine">Varen blev ikke oprettet</string>
+    <string name="addItemErrorMsg">Indtast vare</string>
 </resources>

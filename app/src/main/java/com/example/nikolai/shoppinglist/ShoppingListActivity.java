@@ -1,8 +1,11 @@
 package com.example.nikolai.shoppinglist;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener  {
+    private static final String LOG_TAG = "ShoppingListActivity";
     ListView list;
     List<String> shoppingListDeatails;
     ArrayList<ShoppingListDetail> loadedShoppingListDetails;
@@ -97,9 +101,23 @@ public class ShoppingListActivity extends AppCompatActivity implements AdapterVi
     {
         EditText mEdit;
         mEdit = (EditText)findViewById(R.id.text_addItem);
-        Facade.getInstance().createDetail(mEdit.getText().toString());
-        mEdit.setText("");
-        loadShoppingListDetails();
+
+        if(mEdit.getText().toString().length() > 0 ) {
+            Facade.getInstance().createDetail(mEdit.getText().toString());
+            mEdit.setText("");
+            loadShoppingListDetails();
+        }else{
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.addItemErrorheadLine))
+                    .setMessage(getString(R.string.addItemErrorMsg))
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {// continue with delete
+
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
 
     }
 
@@ -111,8 +129,29 @@ public class ShoppingListActivity extends AppCompatActivity implements AdapterVi
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(this, UserFormActivity.class);
-        startActivity(intent);
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+        new AlertDialog.Builder(this)
+                .setTitle(shoppingListDeatails.get(position))
+                .setMessage(getString(R.string.deleteItemMsg))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                        Log.e(LOG_TAG, "continue with delete!");
+
+                        if(Facade.getInstance().deleteShoppinglistDetail(loadedShoppingListDetails.get(position)._id)){
+                            shoppingListDeatails.remove(position);
+                            updateList();
+                        }
+
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                        Log.e(LOG_TAG, "do nothing!");
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }
