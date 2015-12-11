@@ -84,6 +84,7 @@ public class ShoppingListDb implements AutoCloseable {
 			values.put(user_PASSWORD_COLUMN,password);
 			try{
 			db.insert(TABLE_user, null, values);
+				db.rawQuery("UPDATE "+TABLE_List + " set "+list_user_fk_COLUMN +" = + '" +userName +"'",null);
 				return true;
 			}catch(SQLiteException sqle){
 				Log.w(LOG_TAG, "Could not create "+ TABLE_user + " "+sqle.getMessage());

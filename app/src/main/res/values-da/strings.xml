@@ -10,4 +10,5 @@
     <string name="user">Bruger</string>
     <string name="login">Log ind</string>
     <string name="loginError">Brugernavn/kodeord er forkert</string>
+    <string name ="createUserError">Fejl i oprettelsen</string>
 </resources>

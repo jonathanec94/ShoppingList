@@ -98,7 +98,7 @@ public class Facade {
 
     public void createShoppingList(String name)
     {
-        db.createShoppingList(name, "04-12-2015", "0");
+        db.createShoppingList(name, "04-12-2015", userLoggedOn.getUserName());
     }
 
     public void createDetail(String product) {db.createDetail(product, selectedShoppingList);}

@@ -26,11 +26,16 @@ public class UserFormActivity extends AppCompatActivity {
        EditText userName, password;
        userName = (EditText)findViewById(R.id.editText_username);
        password = (EditText)findViewById(R.id.editText_password);
-
        Facade.getInstance().createUser(userName.getText().toString(),password.getText().toString());
-
        userName.setText("");
        password.setText("");
+       TextView mEdit;
+       mEdit = (TextView)findViewById(R.id.textView_loginStatus);
+       mEdit.setText(getString(R.string.createUserError));
+
+       Intent intent = new Intent(this,MainActivity.class);
+       startActivity(intent);
+
    }
 
     public  void  userLogon(View view)
