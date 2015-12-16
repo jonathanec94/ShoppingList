@@ -137,6 +137,10 @@ public class Facade {
         return false;
     }
 
+    public boolean deleteShoppinglistDetail(String id){
+        return db.deleteShoppinglistDetail(id);
+    }
+
 
 
     public static Facade getInstance() {
