@@ -43,10 +43,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText_username"
         android:layout_alignBottom="@+id/textView_userName"
-        android:layout_alignLeft="@+id/textView_userH1"
-        android:layout_alignStart="@+id/textView_userH1"
         android:layout_alignRight="@+id/editText_password"
-        android:layout_alignEnd="@+id/editText_password" />
+        android:layout_alignEnd="@+id/editText_password"
+        android:layout_alignLeft="@+id/textView_userH1"
+        android:layout_alignStart="@+id/textView_userH1" />
 
     <EditText
         android:layout_width="wrap_content"

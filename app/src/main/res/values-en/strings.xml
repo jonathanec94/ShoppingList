@@ -5,10 +5,15 @@
     <string name="create">Create</string>
     <string name="item_AddItem">Add Item</string>
     <string name="delete">Delete</string>
-    <string name="userName">Usermame</string>
+    <string name="userName">Username</string>
     <string name ="password">Password</string>
     <string name="user">User</string>
     <string name="login">Login</string>
     <string name="loginError">Wrong username/password</string>
     <string name ="createUserError">Error creating user</string>
+
+
+    <string name="deleteItemMsg">Are you sure you want to delete item?</string>
+    <string name="addItemErrorheadLine">Item not created</string>
+    <string name="addItemErrorMsg">Insert item</string>
 </resources>

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.nikolai.shoppinglist.domain.Facade;
 
-public class UserFormActivity extends AppCompatActivity {
+public class UserFormActivity extends MenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,6 @@ public class UserFormActivity extends AppCompatActivity {
 
        Intent intent = new Intent(this,MainActivity.class);
        startActivity(intent);
-
    }
 
     public  void  userLogon(View view)

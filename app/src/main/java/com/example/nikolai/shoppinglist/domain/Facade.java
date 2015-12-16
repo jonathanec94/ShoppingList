@@ -81,7 +81,7 @@ public class Facade {
        cursor = db.getDetails(selectedShoppingList);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
-            shoppingListDetail.add(new ShoppingListDetail(cursor.getInt(cursor.getColumnIndex(detail_ID_COLUMN)),cursor.getString(cursor.getColumnIndex(detail_product_COLUMN)),cursor.getInt(cursor.getColumnIndex(detail_list_fk_COLUMN))));
+            shoppingListDetail.add(new ShoppingListDetail(cursor.getString(cursor.getColumnIndex(detail_ID_COLUMN)),cursor.getString(cursor.getColumnIndex(detail_product_COLUMN)),cursor.getInt(cursor.getColumnIndex(detail_list_fk_COLUMN))));
             cursor.moveToNext();
         }
         cursor.close();
@@ -98,7 +98,12 @@ public class Facade {
 
     public void createShoppingList(String name)
     {
-        db.createShoppingList(name, "04-12-2015", userLoggedOn.getUserName());
+        if(userLoggedOn != null) {
+            db.createShoppingList(name, "04-12-2015", userLoggedOn.getUserName());
+        }
+        else{
+            db.createShoppingList(name, "04-12-2015", "");
+        }
     }
 
     public void createDetail(String product) {db.createDetail(product, selectedShoppingList);}
@@ -143,6 +148,10 @@ public class Facade {
             }
         }
         return instance;
+    }
+
+    public boolean deleteShoppinglistDetail(String id){
+        return db.deleteShoppinglistDetail(id);
     }
 
 }

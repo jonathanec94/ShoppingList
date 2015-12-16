@@ -60,7 +60,7 @@ public class MainActivity extends MenuActivity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(this, ShoppingListActivity.class);
+        Intent intent = new Intent(this, ShoppingListDetailActivity.class);
 
         Facade.getInstance().setSelectedShoppingList(loadedShoppingLists.get(position).getId());
         startActivity(intent);

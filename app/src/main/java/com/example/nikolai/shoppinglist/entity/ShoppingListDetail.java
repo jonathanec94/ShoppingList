@@ -5,13 +5,13 @@ package com.example.nikolai.shoppinglist.entity;
  */
 public class ShoppingListDetail {
 
-    public int _id;
+    public String _id;
     public String product;
    // public String image;
   //  public int size;
     public int list_fk;
 
-    public  ShoppingListDetail(int _id, String product, int list_fk)
+    public  ShoppingListDetail(String _id, String product, int list_fk)
     {
         this._id = _id;
         this.product = product;

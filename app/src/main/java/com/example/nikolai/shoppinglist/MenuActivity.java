@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.example.nikolai.shoppinglist.R;
 import com.example.nikolai.shoppinglist.domain.Facade;
+import com.example.nikolai.shoppinglist.entity.ShoppingList;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -21,10 +22,8 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
+      //  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // setSupportActionBar(toolbar);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -38,11 +37,11 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent intent = null;
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menuUser:
-                Intent intent = null;
+
                 if(Facade.getInstance().getUser() == null)
                 {
                      intent = new Intent(this, UserFormActivity.class);
@@ -51,14 +50,17 @@ public class MenuActivity extends AppCompatActivity {
                 {
                     intent = new Intent(this, UserLoggedInActivity.class);
                 }
-
                 startActivity(intent);
                 return true;
-
+            case R.id.menu_shoppinglists:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 
 

@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.example.nikolai.shoppinglist.domain.Facade;
 
-public class UserLoggedInActivity extends AppCompatActivity {
+public class UserLoggedInActivity extends MenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
