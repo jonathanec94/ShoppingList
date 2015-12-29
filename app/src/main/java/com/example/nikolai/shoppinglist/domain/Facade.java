@@ -2,10 +2,12 @@ package com.example.nikolai.shoppinglist.domain;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.example.nikolai.shoppinglist.R;
 import com.example.nikolai.shoppinglist.dataSourceLayer.ShoppingListDb;
+import com.example.nikolai.shoppinglist.dataSourceLayer.server.ServerDb;
 import com.example.nikolai.shoppinglist.entity.ShoppingList;
 import com.example.nikolai.shoppinglist.entity.ShoppingListDetail;
 import com.example.nikolai.shoppinglist.entity.User;
@@ -27,13 +29,15 @@ public class Facade {
     Context context;
     int selectedShoppingList;
     User userLoggedOn = null;
-    private Facade(){
-
-    }
+    private ServerDb serverDb;
+    private Facade(){}
     public void setContext(Context context)
     {
         this.context = context;
+        serverDb = new ServerDb(context);
         db = new ShoppingListDb(context);
+        //remove database
+        //context.deleteDatabase("datastorage");
     }
 
     public void setSelectedShoppingList(int id)
@@ -57,12 +61,26 @@ public class Facade {
         return null;
     }
 
+
+    public ShoppingListDetail findShoppingListItem(String id)
+    {
+        for(int i = 0; i < shoppingListDetail.size(); i++)
+        {
+            if(shoppingListDetail.get(i)._id.equalsIgnoreCase(id))
+            {
+                return shoppingListDetail.get(i);
+            }
+        }
+        return null;
+    }
+
     public void openDB(){
         db.open();
     }
 
     public void loadShoppingLists()
     {
+        //        db.removeAll();
         shoppingLists = new ArrayList<>();
         cursor = db.getShoppingLists();
         cursor.moveToFirst();
@@ -71,9 +89,9 @@ public class Facade {
             cursor.moveToNext();
         }
         cursor.close();
+        serverDb.getListsFromUsername("a", shoppingLists);
    // return shoppingLists;
     }
-
     public  ArrayList<ShoppingListDetail> LoadshoppingListDetail()
     {
 
@@ -96,20 +114,32 @@ public class Facade {
         return shoppingLists;
     }
 
+
     public void createShoppingList(String name)
     {
         if(userLoggedOn != null) {
             db.createShoppingList(name, "04-12-2015", userLoggedOn.getUserName());
+            serverDb.createList(userLoggedOn.getUserName(),name);
         }
         else{
             db.createShoppingList(name, "04-12-2015", "");
         }
     }
 
-    public void createDetail(String product) {db.createDetail(product, selectedShoppingList);}
-
-    public  void deleteShoppinglist()
+    public void createDetail(String product)
     {
+        if(userLoggedOn != null) {
+            serverDb.createItemInList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName(),product);
+        }
+        db.createDetail(product, selectedShoppingList);
+
+    }
+
+    public void deleteShoppinglist()
+    {
+        if(userLoggedOn != null) {
+            serverDb.deleteList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName());
+        }
         db.deleteShoppinglist(selectedShoppingList);
     }
 
@@ -138,6 +168,9 @@ public class Facade {
     }
 
     public boolean deleteShoppinglistDetail(String id){
+        if(userLoggedOn != null) {
+            serverDb.deleteItemInList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName(),findShoppingListItem(id).getProduct());
+        }
         return db.deleteShoppinglistDetail(id);
     }
 
@@ -152,10 +185,6 @@ public class Facade {
             }
         }
         return instance;
-    }
-
-    public boolean deleteShoppinglistDetail(String id){
-        return db.deleteShoppinglistDetail(id);
     }
 
 }

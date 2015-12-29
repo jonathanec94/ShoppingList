@@ -17,10 +17,13 @@ public class ShoppingListDetail {
         this.product = product;
         this.list_fk = list_fk;
     }
-
+    public ShoppingListDetail (){}
     public String getProduct()
     {
         return product;
     }
 
+    public void setProduct(String text){
+        product = text;
+    }
 }
