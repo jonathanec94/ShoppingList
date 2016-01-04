@@ -26,15 +26,18 @@ public class UserFormActivity extends MenuActivity {
        EditText userName, password;
        userName = (EditText)findViewById(R.id.editText_username);
        password = (EditText)findViewById(R.id.editText_password);
-       Facade.getInstance().createUser(userName.getText().toString(),password.getText().toString());
-       userName.setText("");
-       password.setText("");
-       TextView mEdit;
-       mEdit = (TextView)findViewById(R.id.textView_loginStatus);
-       mEdit.setText(getString(R.string.createUserError));
-
-       Intent intent = new Intent(this,MainActivity.class);
-       startActivity(intent);
+       if(!userName.getText().toString().equals("") && !password.getText().toString().equals("")) {
+           if (Facade.getInstance().createUser(userName.getText().toString(), password.getText().toString())) {
+               Intent intent = new Intent(this, MainActivity.class);
+               startActivity(intent);
+           } else {
+               userName.setText("");
+               password.setText("");
+               TextView mEdit;
+               mEdit = (TextView) findViewById(R.id.textView_loginStatus);
+               mEdit.setText(getString(R.string.create_user_error));
+           }
+       }
    }
 
     public  void  userLogon(View view)

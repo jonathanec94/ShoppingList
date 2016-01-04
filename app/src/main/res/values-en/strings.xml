@@ -16,4 +16,8 @@
     <string name="deleteItemMsg">Are you sure you want to delete item?</string>
     <string name="addItemErrorheadLine">Item not created</string>
     <string name="addItemErrorMsg">Insert item</string>
+
+    <string name="push_msg">Remember to check your shopping lists.</string>
+    <string name="add_user">Add user</string>
+    <string name="create_user_error">User not created</string>
 </resources>

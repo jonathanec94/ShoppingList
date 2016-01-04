@@ -31,7 +31,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item_AddItem"
+        android:text="@string/add_user"
         android:id="@+id/bottom_CreateItemInShoppingList"
         android:onClick="createItemInShoppingList"
         android:layout_below="@+id/textView_shoppingListHeadline"

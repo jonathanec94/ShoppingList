@@ -36,7 +36,7 @@ import com.example.nikolai.shoppinglist.fragment.ShoppinglistUserFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingListDetailActivity extends MenuActivity implements OnItemClickListener  {
+public class ShoppingListDetailActivity extends MenuActivity {
     ListView list;
     List<String> shoppingListDeatails;
     ArrayList<ShoppingListDetail> loadedShoppingListDetails;
@@ -51,7 +51,7 @@ public class ShoppingListDetailActivity extends MenuActivity implements OnItemCl
         Facade.getInstance().openDB();
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -59,8 +59,7 @@ public class ShoppingListDetailActivity extends MenuActivity implements OnItemCl
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        //list = (ListView)findViewById(android.R.id.list);
-        //loadShoppingListDetails();
+
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -98,31 +97,6 @@ public class ShoppingListDetailActivity extends MenuActivity implements OnItemCl
         }
     }
 
-
-    public  void loadShoppingListDetails()
-    {
-        shoppingListDeatails = new ArrayList<>();
-
-        loadedShoppingListDetails = Facade.getInstance().LoadshoppingListDetail();
-
-        if(loadedShoppingListDetails.size() != 0)
-        {
-          for(int i = 0; i < loadedShoppingListDetails.size(); i++)
-          {
-          shoppingListDeatails.add(loadedShoppingListDetails.get(i).getProduct());
-          }
-        }
-    }
-
-/*
-    private void updateList()
-    {
-
-        list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, shoppingListDeatails));
-        list.setOnItemClickListener((OnItemClickListener) this);
-    }
-
-*/
     public void createItemInShoppingList(View view)
     {
         EditText mEdit;
@@ -148,31 +122,10 @@ public class ShoppingListDetailActivity extends MenuActivity implements OnItemCl
 
     public void DeleteShoppinglist(View view)
     {
-
         Facade.getInstance().deleteShoppinglist();
         Intent intent = new Intent(this, MainActivity.class);
-       startActivity(intent);
+        startActivity(intent);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-        new AlertDialog.Builder(this)
-                .setTitle(shoppingListDeatails.get(position))
-                .setMessage(getString(R.string.deleteItemMsg))
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                        if(Facade.getInstance().deleteShoppinglistDetail(loadedShoppingListDetails.get(position)._id)){
-                            shoppingListDeatails.remove(position);
-                        }
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
 
 }
