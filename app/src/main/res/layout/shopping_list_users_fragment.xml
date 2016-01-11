@@ -20,7 +20,7 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_addItem"
+        android:id="@+id/text_addUser"
         android:layout_above="@android:id/list"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:text="@string/add_user"
         android:id="@+id/bottom_CreateItemInShoppingList"
-        android:onClick="createItemInShoppingList"
+        android:onClick="addUserToList"
         android:layout_below="@+id/textView_shoppingListHeadline"
         android:layout_alignRight="@android:id/list"
         android:layout_alignEnd="@android:id/list"

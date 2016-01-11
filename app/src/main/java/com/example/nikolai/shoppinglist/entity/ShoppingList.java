@@ -29,5 +29,10 @@ public class ShoppingList {
         return id;
     }
 
+    public String getDato()
+    {
+        return dato;
+    }
+
 
 }

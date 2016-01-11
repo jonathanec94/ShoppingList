@@ -117,7 +117,8 @@ public class ShoppingListDb implements AutoCloseable {
 
 	}
 
-	public boolean deleteShoppinglistDetail(String id){
+	public boolean deleteShoppinglistDetail(String id)
+	{
 		try {
 			db.execSQL("DELETE FROM " + TABLE_Details + " WHERE " + detail_ID_COLUMN + " = " + id + ";");
 		}catch (SQLiteException sqle)
@@ -126,6 +127,30 @@ public class ShoppingListDb implements AutoCloseable {
 			return false;
 		}
 		return true;
+	}
+
+	public Cursor getNotification(String date)
+	{
+		return db.rawQuery("select * from "+TABLE_Notification+ " where " +notification_date + " = '" +date + "';" , null);
+	}
+
+	public void addNotification(String date)
+	{
+		try
+		{
+			ContentValues values = new ContentValues();
+			values.put(notification_date, date);
+			db.insert(TABLE_Notification, null, values);
+		}
+		catch (SQLiteException sqle)
+		{
+			Log.w(LOG_TAG, "Could not create "+ TABLE_Notification + " "+sqle.getMessage());
+		}
+	}
+
+	public void  deleteNotification()
+	{
+		db.execSQL("DELETE FROM " +TABLE_Notification+";");
 	}
 
 	

@@ -127,5 +127,16 @@ public class ShoppingListDetailActivity extends MenuActivity {
         startActivity(intent);
     }
 
+    public void addUserToList(View view)
+    {
+        Log.e("lort","hej");
+
+        EditText mEdit;
+        mEdit = (EditText)findViewById(R.id.text_addUser);
+
+       Facade.getInstance().addUserToList(mEdit.getText().toString());
+
+    }
+
 
 }

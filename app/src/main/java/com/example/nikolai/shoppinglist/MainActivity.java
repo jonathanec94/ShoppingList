@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.example.nikolai.shoppinglist.domain.Facade;
 import com.example.nikolai.shoppinglist.entity.ShoppingList;
+import com.example.nikolai.shoppinglist.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,10 @@ public class MainActivity extends MenuActivity implements AdapterView.OnItemClic
         list = (ListView)findViewById(R.id.listView_detail);
 
         loadShoppingLists();
+       // Facade.getInstance().deleteNotification();
 
+        Intent intent = new Intent(this, com.example.nikolai.shoppinglist.service.PushMsg.class);
+        startService(intent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

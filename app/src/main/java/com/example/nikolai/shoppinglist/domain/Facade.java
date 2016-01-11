@@ -49,7 +49,7 @@ public class Facade {
 
         // serverDb.getListOnTitleAndUsername("aabb","a");
         //remove database
-       // context.deleteDatabase("datastorage");
+       //context.deleteDatabase("datastorage");
     }
 
     public void addUser(String username)
@@ -168,7 +168,7 @@ public class Facade {
     public void createDetail(String product)
     {
         if(userLoggedOn != null) {
-            serverDb.createItemInList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName(),product);
+            serverDb.createItemInList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName(), product);
         }
         db.createDetail(product, selectedShoppingList);
 
@@ -188,6 +188,14 @@ public class Facade {
         if (created){userLoggedOn = new User(userName, password);}
 
         return created;
+    }
+
+    public void addUserToList(String user)
+    {
+       Log.e("addUserToList", user);
+        Log.e("addUserToList",userLoggedOn.getUserName());
+        Log.e("addUserToList",findShoppingList(selectedShoppingList).getName());
+
     }
 
     public  User getUser()
@@ -210,11 +218,26 @@ public class Facade {
 
     public boolean deleteShoppinglistDetail(String id){
         if(userLoggedOn != null) {
-            serverDb.deleteItemInList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName(),findShoppingListItem(id).getProduct());
+            serverDb.deleteItemInList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName(), findShoppingListItem(id).getProduct());
         }
         return db.deleteShoppinglistDetail(id);
     }
 
+    public boolean getNotification(String date)
+    {
+        Cursor c = db.getNotification(date);
+        return  c.moveToFirst();
+    }
+
+    public void addNotification(String date)
+    {
+        db.addNotification(date);
+    }
+
+    public  void deleteNotification()
+    {
+        db.deleteNotification();
+    }
 
 
     public static Facade getInstance() {
@@ -227,5 +250,7 @@ public class Facade {
         }
         return instance;
     }
+
+
 
 }

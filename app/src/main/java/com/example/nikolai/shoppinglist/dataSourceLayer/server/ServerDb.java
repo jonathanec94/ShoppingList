@@ -53,7 +53,7 @@ public class ServerDb {
 
     //public ArrayList<ShoppingListDetail> getListsFromUsername(ArrayList<ShoppingListDetail> local,String username) {
     public void getListsFromUsername(final String username, final ArrayList<ShoppingList> shoppingLists) {
-
+        Log.e("getListsFromUsername", "start of getListsFromUsername");
 
         $.ajax(new AjaxOptions().url("http://android-testnikolai1.rhcloud.com/api/findAllListOnUser/" + username)
                 .type("GET")
