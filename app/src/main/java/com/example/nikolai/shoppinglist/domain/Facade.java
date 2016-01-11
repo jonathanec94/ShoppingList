@@ -12,7 +12,12 @@ import com.example.nikolai.shoppinglist.entity.ShoppingList;
 import com.example.nikolai.shoppinglist.entity.ShoppingListDetail;
 import com.example.nikolai.shoppinglist.entity.User;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.example.nikolai.shoppinglist.dataSourceLayer.ShoppingListDbHelper.*;
 
@@ -25,19 +30,36 @@ public class Facade {
     private ShoppingListDb db;
     ArrayList<ShoppingList> shoppingLists;
     ArrayList<ShoppingListDetail> shoppingListDetail;
+    ArrayList<String> users;
     Cursor cursor;
     Context context;
     int selectedShoppingList;
     User userLoggedOn = null;
     private ServerDb serverDb;
-    private Facade(){}
+    private Facade(){
+        users = new ArrayList<>();
+    }
     public void setContext(Context context)
     {
         this.context = context;
         serverDb = new ServerDb(context);
         db = new ShoppingListDb(context);
+
+
+
+        // serverDb.getListOnTitleAndUsername("aabb","a");
         //remove database
-        //context.deleteDatabase("datastorage");
+       // context.deleteDatabase("datastorage");
+    }
+
+    public void addUser(String username)
+    {
+     users.add(username);
+    }
+
+    public ArrayList<String> getUsers()
+    {
+        return users;
     }
 
     public void setSelectedShoppingList(int id)
@@ -46,12 +68,12 @@ public class Facade {
     }
     public int getSelectedShoppingList()
     {
-        return selectedShoppingList;
+                return selectedShoppingList;
     }
 
     public ShoppingList findShoppingList(int id)
     {
-        for(int i = 0; i < shoppingLists.size(); i++)
+             for(int i = 0; i < shoppingLists.size(); i++)
         {
             if(shoppingLists.get(i).getId() == (id))
             {
@@ -60,6 +82,7 @@ public class Facade {
         }
         return null;
     }
+
 
 
     public ShoppingListDetail findShoppingListItem(String id)
@@ -80,6 +103,7 @@ public class Facade {
 
     public void loadShoppingLists()
     {
+
         //        db.removeAll();
         shoppingLists = new ArrayList<>();
         cursor = db.getShoppingLists();
@@ -89,7 +113,6 @@ public class Facade {
             cursor.moveToNext();
         }
         cursor.close();
-        serverDb.getListsFromUsername("a", shoppingLists);
    // return shoppingLists;
     }
     public  ArrayList<ShoppingListDetail> LoadshoppingListDetail()
@@ -103,9 +126,9 @@ public class Facade {
             cursor.moveToNext();
         }
         cursor.close();
+        //serverDb.getListsFromUsername("a", shoppingLists);
         return  shoppingListDetail;
     }
-
 
 
 
@@ -115,15 +138,31 @@ public class Facade {
     }
 
 
-    public void createShoppingList(String name)
-    {
+    public void createShoppingList(String name) {
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Log.e("Fa createShoppingList", currentDateTimeString.substring(0,10));
+
+        Calendar cal = Calendar.getInstance();
+        try{
+            cal.setTime(dateFormat.parse(currentDateTimeString.substring(0,10)));
+        }
+        catch (ParseException e) {
+            Log.e("Fa createShoppingList", e.toString());
+        }
+        cal.add(Calendar.DATE, 2);
+        Log.e("Fa createShoppingList",dateFormat.format(cal.getTime()) );
+
+
+
         if(userLoggedOn != null) {
-            db.createShoppingList(name, "04-12-2015", userLoggedOn.getUserName());
-            serverDb.createList(userLoggedOn.getUserName(),name);
+            db.createShoppingList(name, dateFormat.format(cal.getTime()), userLoggedOn.getUserName());
+            serverDb.createList(userLoggedOn.getUserName(),name,dateFormat.format(cal.getTime()));
         }
         else{
-            db.createShoppingList(name, "04-12-2015", "");
+            db.createShoppingList(name, dateFormat.format(cal.getTime()), "");
         }
+
     }
 
     public void createDetail(String product)
@@ -162,6 +201,8 @@ public class Facade {
         if(logon)
         {
             userLoggedOn = new User(userName, password);
+           // serverDb.getListsFromUsername("a", shoppingLists,userLoggedOn.getUserName());
+            serverDb.getListsFromUsername(userLoggedOn.getUserName(), shoppingLists);
             return true;
         }
         return false;

@@ -37,6 +37,7 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         Intent intent = null;
         // Handle item selection
         switch (item.getItemId()) {
