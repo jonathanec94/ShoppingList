@@ -76,6 +76,17 @@ public class ShoppingListDbHelper extends SQLiteOpenHelper{
 
     private static final String DROP_TABLE_SQL_detail = "drop table if exists "+TABLE_Details+";";
 
+    public static final String TABLE_Notification = "notification";
+
+    public static final String notification_date = "noti_date";
+
+    private static final String CREATE_TABLE_SQL_notification =
+            "create table "+TABLE_Notification+" ("+
+                    notification_date+" text primary key );";
+
+    private static final String DROP_TABLE_SQL_notification = "drop table if exists "+TABLE_Notification+";";
+
+
 
 
     public ShoppingListDbHelper(Context context) {
@@ -88,7 +99,7 @@ public class ShoppingListDbHelper extends SQLiteOpenHelper{
             db.execSQL(CREATE_TABLE_SQL);
             db.execSQL(CREATE_TABLE_SQL_list);
             db.execSQL(CREATE_TABLE_SQL_details);
-
+            db.execSQL(CREATE_TABLE_SQL_notification);
             }
         catch (SQLiteException sqle) {
             Log.e(LOG_TAG, "Could not create database "+DATABASE);
@@ -102,6 +113,7 @@ public class ShoppingListDbHelper extends SQLiteOpenHelper{
         db.execSQL(DROP_TABLE_SQL);
         db.execSQL(DROP_TABLE_SQL_list);
         db.execSQL(DROP_TABLE_SQL_detail);
+        db.execSQL(DROP_TABLE_SQL_notification);
         onCreate(db);
         }
 
