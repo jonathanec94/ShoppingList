@@ -383,4 +383,29 @@ public class ServerDb {
 
     }
 
+
+    public void deleteUserInList(String listTitle,String listUsername) {
+        $.ajax(new AjaxOptions()
+                .url("http://android-testnikolai1.rhcloud.com/api/deleteUserInList/" + listUsername + "/"+listTitle)
+                .type("DELETE")
+                .dataType("JSON")
+                .context(context)
+                .success(new Function() {
+                    @Override
+                    public void invoke($ droidQuery, Object... params) {
+                        JSONObject response = (JSONObject) params[0];
+                        Log.e("ServerDb-DELUseILis", response.toString());
+                    }
+                })
+                .error(new Function() {
+                    @Override
+                    public void invoke($ droidQuery, Object... params) {
+                        int statusCode = (Integer) params[1];
+                        String error = (String) params[2];
+                        Log.e("ServerDb-DELUseILisErr", statusCode + " " + error);
+                    }
+                }).debug(true));
+
+    }
+
 }
