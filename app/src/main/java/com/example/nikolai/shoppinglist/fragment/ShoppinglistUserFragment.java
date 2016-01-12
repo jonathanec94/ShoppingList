@@ -2,6 +2,8 @@ package com.example.nikolai.shoppinglist.fragment;
 
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import self.philbrown.droidQuery.Function;
 
 public class ShoppinglistUserFragment extends ListFragment {
     ArrayAdapter<String> adapter;
+    ShoppinglistUserFragment self  = this;
     public ShoppinglistUserFragment() {
         // Required empty public constructor
     }
@@ -63,12 +66,12 @@ public class ShoppinglistUserFragment extends ListFragment {
         ShoppingList shoppingList = Facade.getInstance().findShoppingList(Facade.getInstance().getSelectedShoppingList());
         headline.setText(shoppingList.getName());
 
-        updateList(false);
+        updateList();
                 // Inflate the layout for this fragment
         return rootView;
     }
 
-    public void updateList(final boolean trueFalse)
+    public void updateList()
     {
         ShoppingList shoppingList = Facade.getInstance().findShoppingList(Facade.getInstance().getSelectedShoppingList());
 
@@ -105,17 +108,20 @@ public class ShoppinglistUserFragment extends ListFragment {
                                         android.R.layout.simple_list_item_1, usernames);
                                 setListAdapter(adapter);
 
-                                if (trueFalse) {
-                                    Intent intent = new Intent(getContext(), ShoppingListDetailActivity.class);
-                                    startActivity(intent);
-                                }
 
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+
                         }
-                    }).error(new Function() {
+
+                        catch(
+                        JSONException e
+                        )
+
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+        }).error(new Function() {
                         @Override
                         public void invoke($ droidQuery, Object... params) {
                             int statusCode = (Integer) params[1];
@@ -131,7 +137,8 @@ public class ShoppinglistUserFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, final int position, long id) {
-        String username = ((TextView) v).getText().toString();
+
+        final String username = ((TextView) v).getText().toString();
         new AlertDialog.Builder(getActivity())
                 .setTitle(username)
                 .setMessage(getString(R.string.delete_user))
@@ -139,6 +146,8 @@ public class ShoppinglistUserFragment extends ListFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with delete
                      // slet user forbindelsen her
+                        Facade.getInstance().removeUserFromList(username);
+                        updateList();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

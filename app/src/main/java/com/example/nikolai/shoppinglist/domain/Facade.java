@@ -44,9 +44,6 @@ public class Facade {
         this.context = context;
         serverDb = new ServerDb(context);
         db = new ShoppingListDb(context);
-
-
-
         // serverDb.getListOnTitleAndUsername("aabb","a");
         //remove database
        //context.deleteDatabase("datastorage");
@@ -182,6 +179,16 @@ public class Facade {
             serverDb.deleteList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName());
         }
         db.deleteShoppinglist(selectedShoppingList);
+    }
+
+    public void removeUserFromList(String username)
+    {
+        serverDb.deleteUserInList(findShoppingList(getSelectedShoppingList()).getName(),username);
+        if(username.equals(userLoggedOn.getUserName()))
+        {
+            db.deleteShoppinglist(findShoppingList(getSelectedShoppingList()).getId());
+        }
+
     }
 
     public boolean createUser(String userName, String password) {

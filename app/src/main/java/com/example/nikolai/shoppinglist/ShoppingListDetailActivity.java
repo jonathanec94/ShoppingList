@@ -1,6 +1,9 @@
 package com.example.nikolai.shoppinglist;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -136,10 +139,11 @@ public class ShoppingListDetailActivity extends MenuActivity {
         mEdit = (EditText)findViewById(R.id.text_addUser);
 
        Facade.getInstance().addUserToList(mEdit.getText().toString());
-        shoppinglistUserFragment.updateList(true);
+
+        Intent intent = new Intent(this,ShoppingListDetailActivity.class);
+        startActivity(intent);
 
 
     }
-
 
 }

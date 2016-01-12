@@ -36,7 +36,7 @@ public class MainActivity extends MenuActivity implements AdapterView.OnItemClic
         list = (ListView)findViewById(R.id.listView_detail);
 
         loadShoppingLists();
-       // Facade.getInstance().deleteNotification();
+        Facade.getInstance().deleteNotification();
 
         Intent intent = new Intent(this, com.example.nikolai.shoppinglist.service.PushMsg.class);
         startService(intent);
