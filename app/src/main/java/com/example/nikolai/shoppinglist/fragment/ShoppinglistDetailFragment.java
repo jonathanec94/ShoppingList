@@ -39,10 +39,6 @@ public class ShoppinglistDetailFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         Facade.getInstance().setContext(getActivity());
         Facade.getInstance().openDB();
-
-
-
-
         loadShoppingListDetails();
     }
 

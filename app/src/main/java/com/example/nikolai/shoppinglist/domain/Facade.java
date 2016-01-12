@@ -37,7 +37,7 @@ public class Facade {
     User userLoggedOn = null;
     private ServerDb serverDb;
     private Facade(){
-        users = new ArrayList<>();
+
     }
     public void setContext(Context context)
     {
@@ -51,7 +51,9 @@ public class Facade {
         //remove database
        //context.deleteDatabase("datastorage");
     }
-
+    public void setUserList(){
+        users = new ArrayList<>();
+    }
     public void addUser(String username)
     {
      users.add(username);
@@ -195,7 +197,7 @@ public class Facade {
         Log.e("addUserToList", user);
         Log.e("addUserToList",userLoggedOn.getUserName());
         Log.e("addUserToList", findShoppingList(selectedShoppingList).getName());
-        serverDb.addUserToList(findShoppingList(selectedShoppingList).getName(),userLoggedOn.getUserName(),user);
+        serverDb.addUserToList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName(), user);
 
     }
 

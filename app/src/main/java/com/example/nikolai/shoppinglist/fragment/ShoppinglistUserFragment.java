@@ -3,6 +3,7 @@ package com.example.nikolai.shoppinglist.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.nikolai.shoppinglist.MainActivity;
 import com.example.nikolai.shoppinglist.R;
 import com.example.nikolai.shoppinglist.ShoppingListDetailActivity;
 import com.example.nikolai.shoppinglist.domain.Facade;
@@ -47,8 +49,6 @@ public class ShoppinglistUserFragment extends ListFragment {
                 android.R.layout.simple_list_item_1, Facade.getInstance().getUsers());
         setListAdapter(adapter);
 */
-
-
     }
 
     @Override
@@ -62,6 +62,15 @@ public class ShoppinglistUserFragment extends ListFragment {
         TextView headline = (TextView) rootView.findViewById(R.id.textView_shoppingListHeadline);
         ShoppingList shoppingList = Facade.getInstance().findShoppingList(Facade.getInstance().getSelectedShoppingList());
         headline.setText(shoppingList.getName());
+
+        updateList(false);
+                // Inflate the layout for this fragment
+        return rootView;
+    }
+
+    public void updateList(final boolean trueFalse)
+    {
+        ShoppingList shoppingList = Facade.getInstance().findShoppingList(Facade.getInstance().getSelectedShoppingList());
 
         User user = Facade.getInstance().getUser();
         if(user != null) {
@@ -96,6 +105,12 @@ public class ShoppinglistUserFragment extends ListFragment {
                                         android.R.layout.simple_list_item_1, usernames);
                                 setListAdapter(adapter);
 
+                                if (trueFalse) {
+                                    Intent intent = new Intent(getContext(), ShoppingListDetailActivity.class);
+                                    startActivity(intent);
+                                }
+
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -110,17 +125,16 @@ public class ShoppinglistUserFragment extends ListFragment {
                     }));
 
         }
-        // Inflate the layout for this fragment
-        return rootView;
+
     }
 
 
     @Override
     public void onListItemClick(ListView l, View v, final int position, long id) {
-
+        String username = ((TextView) v).getText().toString();
         new AlertDialog.Builder(getActivity())
-                .setTitle("udskriv user name her")
-                .setMessage(getString(R.string.deleteItemMsg))
+                .setTitle(username)
+                .setMessage(getString(R.string.delete_user))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with delete

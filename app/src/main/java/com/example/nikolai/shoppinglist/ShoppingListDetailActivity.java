@@ -41,6 +41,7 @@ public class ShoppingListDetailActivity extends MenuActivity {
     List<String> shoppingListDeatails;
     ArrayList<ShoppingListDetail> loadedShoppingListDetails;
     ShoppinglistDetailFragment detailFragment = new ShoppinglistDetailFragment();
+    ShoppinglistUserFragment shoppinglistUserFragment = new ShoppinglistUserFragment();
     private ViewPager viewPager;
     private TabLayout tabLayout;
     @Override
@@ -64,7 +65,7 @@ public class ShoppingListDetailActivity extends MenuActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(detailFragment, "List Details");
-        adapter.addFragment(new ShoppinglistUserFragment(), "Users");
+        adapter.addFragment(shoppinglistUserFragment, "Users");
         viewPager.setAdapter(adapter);
     }
 
@@ -135,6 +136,8 @@ public class ShoppingListDetailActivity extends MenuActivity {
         mEdit = (EditText)findViewById(R.id.text_addUser);
 
        Facade.getInstance().addUserToList(mEdit.getText().toString());
+        shoppinglistUserFragment.updateList(true);
+
 
     }
 

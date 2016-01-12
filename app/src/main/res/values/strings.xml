@@ -30,4 +30,6 @@
 
     <string name="push_msg">Remember to check your shopping lists.</string>
     <string name="add_user">Add user</string>
+    <string name="create_user_error">User not created</string>
+    <string name="delete_user">Are you sure you want to delete this user?</string>
 </resources>
