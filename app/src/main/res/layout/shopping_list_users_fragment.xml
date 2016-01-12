@@ -40,17 +40,6 @@
         android:background="#009900"
         />
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/delete"
-        android:id="@+id/button2"
-        android:layout_below="@android:id/list"
-        android:layout_centerHorizontal="true"
-        android:background="#ff4c4c"
-        android:onClick="DeleteShoppinglist"
-        />
-
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
