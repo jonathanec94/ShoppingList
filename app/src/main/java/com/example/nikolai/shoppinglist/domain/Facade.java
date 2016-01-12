@@ -151,7 +151,7 @@ public class Facade {
             Log.e("Fa createShoppingList", e.toString());
         }
         cal.add(Calendar.DATE, 2);
-        Log.e("Fa createShoppingList",dateFormat.format(cal.getTime()) );
+        Log.e("Fa createShoppingList", dateFormat.format(cal.getTime()));
 
 
 
@@ -184,7 +184,7 @@ public class Facade {
 
     public boolean createUser(String userName, String password) {
         boolean created = db.createUser(userName, password);
-
+        serverDb.createUser(userName,password);
         if (created){userLoggedOn = new User(userName, password);}
 
         return created;
@@ -192,9 +192,10 @@ public class Facade {
 
     public void addUserToList(String user)
     {
-       Log.e("addUserToList", user);
+        Log.e("addUserToList", user);
         Log.e("addUserToList",userLoggedOn.getUserName());
-        Log.e("addUserToList",findShoppingList(selectedShoppingList).getName());
+        Log.e("addUserToList", findShoppingList(selectedShoppingList).getName());
+        serverDb.addUserToList(findShoppingList(selectedShoppingList).getName(),userLoggedOn.getUserName(),user);
 
     }
 

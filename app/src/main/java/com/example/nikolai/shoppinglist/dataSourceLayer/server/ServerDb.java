@@ -53,7 +53,7 @@ public class ServerDb {
 
     //public ArrayList<ShoppingListDetail> getListsFromUsername(ArrayList<ShoppingListDetail> local,String username) {
     public void getListsFromUsername(final String username, final ArrayList<ShoppingList> shoppingLists) {
-        Log.e("getListsFromUsername", "start of getListsFromUsername");
+
 
         $.ajax(new AjaxOptions().url("http://android-testnikolai1.rhcloud.com/api/findAllListOnUser/" + username)
                 .type("GET")
@@ -75,7 +75,7 @@ public class ServerDb {
                                 Map<String, ?> map = $.map(json.getJSONObject(j));
                                 JSONArray datas = (JSONArray) map.get("list");
                                 String listTitle = map.get("title").toString();
-                                String dateNote  = map.get("dateNote").toString();
+                                String dateNote = map.get("dateNote").toString();
 
                                 boolean statusOnList = Boolean.valueOf(map.get("status").toString());
 
@@ -164,7 +164,7 @@ public class ServerDb {
         return null;
     }
 
-    public void getListOnTitleAndUsername(String title, String username){
+   /* public void getListOnTitleAndUsername(String title, String username){
 
         $.ajax(new AjaxOptions().url("http://android-testnikolai1.rhcloud.com/api/findOneListOnUser/" + title + "/" + username)
                 .type("GET")
@@ -205,10 +205,10 @@ public class ServerDb {
                 }));
 
 
-    }
+    }*/
 
     public ArrayList<ShoppingListDetail> shoppingListDetails(int shoppingFk){
-       ArrayList<ShoppingListDetail> shoppingListDetail = new ArrayList<>();
+        ArrayList<ShoppingListDetail> shoppingListDetail = new ArrayList<>();
         cursor = db.getDetails(shoppingFk);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
@@ -229,7 +229,6 @@ public class ServerDb {
                 .type("POST")
                 .dataType("JSON")
                 .data(data)
-
                 .context(context)
                 .contentType("application/json")
                 .success(new Function() {
@@ -276,6 +275,59 @@ public class ServerDb {
                     }
                 }).debug(true));
 
+    }
+
+
+    public void createUser(String username, String password) {
+        final String data = "{\"username\":\""+username+"\",\"password\":\""+password+"\"}";
+        $.ajax(new AjaxOptions()
+                .url("http://android-testnikolai1.rhcloud.com/api/createUser")
+                .type("POST")
+                .dataType("JSON")
+                .data(data)
+                .context(context)
+                .contentType("application/json")
+                .success(new Function() {
+                    @Override
+                    public void invoke($ droidQuery, Object... params) {
+                        JSONObject response = (JSONObject) params[0];
+                        Log.e("ServerDb-createUser", response.toString());
+                    }
+                })
+                .error(new Function() {
+                    @Override
+                    public void invoke($ droidQuery, Object... params) {
+                        int statusCode = (Integer) params[1];
+                        String error = (String) params[2];
+                        Log.e("ServerDb-createUserErr", statusCode + " " + error);
+                    }
+                }).debug(true));
+    }
+
+
+    //!!!!!!!!!!!!!!!!!-----------PUT--------------!!!!!!!!!!!!!!!!!!!!
+
+    public void addUserToList(String title, String username, String newUsername) {
+        $.ajax(new AjaxOptions()
+                .url("http://android-testnikolai1.rhcloud.com/api/addAUserToList/"+title+"/"+username+"/"+newUsername)
+                .type("PUT")
+                .dataType("JSON")
+                .context(context)
+                .success(new Function() {
+                    @Override
+                    public void invoke($ droidQuery, Object... params) {
+                        JSONObject response = (JSONObject) params[0];
+                        Log.e("ServerDb-addUserToList", response.toString());
+                    }
+                })
+                .error(new Function() {
+                    @Override
+                    public void invoke($ droidQuery, Object... params) {
+                        int statusCode = (Integer) params[1];
+                        String error = (String) params[2];
+                        Log.e("ServerDb-addUserToLiErr", statusCode + " " + error);
+                    }
+                }).debug(true));
     }
 
 
