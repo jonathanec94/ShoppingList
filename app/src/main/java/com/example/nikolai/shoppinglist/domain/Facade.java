@@ -47,7 +47,7 @@ public class Facade {
         db = new ShoppingListDb(context);
         // serverDb.getListOnTitleAndUsername("aabb","a");
         //remove database
-       context.deleteDatabase("datastorage");
+      // context.deleteDatabase("datastorage");
     }
     public void setUserList(){
         users = new ArrayList<>();
