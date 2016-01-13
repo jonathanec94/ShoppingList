@@ -78,6 +78,7 @@ public class ServerDb {
                                          String listTitle = map.get("title").toString();
                                          String dateNote = map.get("dateNote").toString();
 
+                                         // deleted or created?
                                          boolean statusOnList = Boolean.valueOf(map.get("status").toString());
 
                                          //Check local up to server
@@ -101,6 +102,7 @@ public class ServerDb {
                                                          Map<String, ?> data = $.map(jdata);
 
                                                          String itemTitle = data.get("item").toString();
+                                                         // deleted or created?
                                                          boolean statusItem = Boolean.valueOf(data.get("status").toString());
 
 

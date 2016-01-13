@@ -31,7 +31,7 @@ public class PushMsg extends Service {
     private Handler mPeriodicEventHandler;
     private static final String TAG = "Service MSG";
     Context context = this;
-    private final int PERIODIC_EVENT_TIMEOUT = 60000;
+    private final int PERIODIC_EVENT_TIMEOUT = 30000;
 
     String currentDateTimeString;
     SimpleDateFormat dateFormat;

@@ -45,22 +45,10 @@ public class Facade {
         this.context = context;
         serverDb = new ServerDb(context);
         db = new ShoppingListDb(context);
-        // serverDb.getListOnTitleAndUsername("aabb","a");
         //remove database
       // context.deleteDatabase("datastorage");
     }
-    public void setUserList(){
-        users = new ArrayList<>();
-    }
-    public void addUser(String username)
-    {
-     users.add(username);
-    }
 
-    public ArrayList<String> getUsers()
-    {
-        return users;
-    }
 
     public void setSelectedShoppingList(int id)
     {
@@ -148,7 +136,6 @@ public class Facade {
     public void createShoppingList(String name) {
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Log.e("Fa createShoppingList", currentDateTimeString.substring(0,10));
 
         Calendar cal = Calendar.getInstance();
         try{
@@ -157,8 +144,8 @@ public class Facade {
         catch (ParseException e) {
             Log.e("Fa createShoppingList", e.toString());
         }
-        cal.add(Calendar.DATE, 2);
-        Log.e("Fa createShoppingList", dateFormat.format(cal.getTime()));
+       // cal.add(Calendar.DATE, 2);
+
 
 
 
@@ -209,9 +196,6 @@ public class Facade {
 
     public void addUserToList(String user)
     {
-        Log.e("addUserToList", user);
-        Log.e("addUserToList",userLoggedOn.getUserName());
-        Log.e("addUserToList", findShoppingList(selectedShoppingList).getName());
         serverDb.addUserToList(findShoppingList(selectedShoppingList).getName(), userLoggedOn.getUserName(), user);
 
     }
