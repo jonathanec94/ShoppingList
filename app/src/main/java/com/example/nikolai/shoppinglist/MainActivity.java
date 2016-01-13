@@ -3,6 +3,8 @@ package com.example.nikolai.shoppinglist;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.Adapter;
@@ -24,10 +26,12 @@ public class MainActivity extends MenuActivity implements AdapterView.OnItemClic
     Cursor cursor;
     Adapter adapter;
     ArrayList<ShoppingList> loadedShoppingLists;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Facade.getInstance().setContext(this);
         Facade.getInstance().openDB();
@@ -36,14 +40,32 @@ public class MainActivity extends MenuActivity implements AdapterView.OnItemClic
         list = (ListView)findViewById(R.id.listView_detail);
 
         loadShoppingLists();
-        Facade.getInstance().deleteNotification();
+        //Facade.getInstance().deleteNotification();
 
         Intent intent = new Intent(this, com.example.nikolai.shoppinglist.service.PushMsg.class);
         startService(intent);
 
+                /*
+                 * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+                 * performs a swipe-to-refresh gesture.
+                 */
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        // This method performs the actual data-refresh operation.
+                        // The method calls setRefreshing(false) when it's finished.
+                        Facade.getInstance().updateOnslide(mSwipeRefreshLayout);
+                    }
+                }
+        );
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
+
 
     public  void loadShoppingLists()
     {

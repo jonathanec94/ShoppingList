@@ -133,8 +133,6 @@ public class ShoppingListDetailActivity extends MenuActivity {
 
     public void addUserToList(View view)
     {
-        Log.e("lort","hej");
-
         EditText mEdit;
         mEdit = (EditText)findViewById(R.id.text_addUser);
 

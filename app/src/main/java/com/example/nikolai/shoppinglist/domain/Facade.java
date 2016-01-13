@@ -2,6 +2,7 @@ package com.example.nikolai.shoppinglist.domain;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -46,7 +47,7 @@ public class Facade {
         db = new ShoppingListDb(context);
         // serverDb.getListOnTitleAndUsername("aabb","a");
         //remove database
-       //context.deleteDatabase("datastorage");
+       context.deleteDatabase("datastorage");
     }
     public void setUserList(){
         users = new ArrayList<>();
@@ -82,6 +83,13 @@ public class Facade {
         return null;
     }
 
+    public void updateOnslide(SwipeRefreshLayout swipeRefreshLayout){
+        if(userLoggedOn != null) {
+            serverDb.getListsFromUsername(userLoggedOn.getUserName(),shoppingLists,true,swipeRefreshLayout);
+        }else{
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
 
 
     public ShoppingListDetail findShoppingListItem(String id)
@@ -121,7 +129,7 @@ public class Facade {
        cursor = db.getDetails(selectedShoppingList);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
-            shoppingListDetail.add(new ShoppingListDetail(cursor.getString(cursor.getColumnIndex(detail_ID_COLUMN)),cursor.getString(cursor.getColumnIndex(detail_product_COLUMN)),cursor.getInt(cursor.getColumnIndex(detail_list_fk_COLUMN))));
+            shoppingListDetail.add(new ShoppingListDetail(cursor.getString(cursor.getColumnIndex(detail_ID_COLUMN)),cursor.getString(cursor.getColumnIndex(detail_product_COLUMN)), cursor.getInt(cursor.getColumnIndex(detail_list_fk_COLUMN))));
             cursor.moveToNext();
         }
         cursor.close();
@@ -220,7 +228,8 @@ public class Facade {
         {
             userLoggedOn = new User(userName, password);
            // serverDb.getListsFromUsername("a", shoppingLists,userLoggedOn.getUserName());
-            serverDb.getListsFromUsername(userLoggedOn.getUserName(), shoppingLists);
+            SwipeRefreshLayout swipeRefreshLayout = null;
+            serverDb.getListsFromUsername(userLoggedOn.getUserName(), shoppingLists,false,swipeRefreshLayout);
             return true;
         }
         return false;

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 
@@ -52,7 +53,7 @@ public class ServerDb {
 
 
     //public ArrayList<ShoppingListDetail> getListsFromUsername(ArrayList<ShoppingListDetail> local,String username) {
-    public void getListsFromUsername(final String username, final ArrayList<ShoppingList> shoppingLists) {
+    public void getListsFromUsername(final String username, final ArrayList<ShoppingList> shoppingLists, final boolean updateIntent, final SwipeRefreshLayout swipeRefreshLayout) {
 
 
         $.ajax(new AjaxOptions().url("http://android-testnikolai1.rhcloud.com/api/findAllListOnUser/" + username)
@@ -61,97 +62,108 @@ public class ServerDb {
                 .debug(true)
                 .context(context)
                 .success(new Function() {
-                    ArrayList<ShoppingListDetail> itemsFromLocal;
+                             ArrayList<ShoppingListDetail> itemsFromLocal;
 
 
-                    @Override
-                    public void invoke($ droidQuery, Object... params) {
-                        JSONArray json = (JSONArray) params[0];
-                        try {
+                             @Override
+                             public void invoke($ droidQuery, Object... params) {
+                                 JSONArray json = (JSONArray) params[0];
+                                 try {
 
-                            //get all list's from server
-                            for (int j = 0; j < json.length(); j++) {
-                                boolean doListExistLocal = false;
-                                Map<String, ?> map = $.map(json.getJSONObject(j));
-                                JSONArray datas = (JSONArray) map.get("list");
-                                String listTitle = map.get("title").toString();
-                                String dateNote = map.get("dateNote").toString();
+                                     //get all list's from server
+                                     for (int j = 0; j < json.length(); j++) {
+                                         boolean doListExistLocal = false;
+                                         Map<String, ?> map = $.map(json.getJSONObject(j));
+                                         JSONArray datas = (JSONArray) map.get("list");
+                                         String listTitle = map.get("title").toString();
+                                         String dateNote = map.get("dateNote").toString();
 
-                                boolean statusOnList = Boolean.valueOf(map.get("status").toString());
+                                         boolean statusOnList = Boolean.valueOf(map.get("status").toString());
 
-                                //Check local up to server
-                                for (int l = 0; l < shoppingLists.size(); l++) {
-                                    if (shoppingLists.get(l).getName().equalsIgnoreCase(listTitle)) {
-                                        doListExistLocal = true;
-                                        if (!statusOnList) {
-                                            db.deleteShoppinglist(shoppingLists.get(l).getId());
-                                            Intent intent = new Intent(context, MainActivity.class);
-                                            context.startActivity(intent);
-                                        } else {
+                                         //Check local up to server
+                                         for (int l = 0; l < shoppingLists.size(); l++) {
+                                             if (shoppingLists.get(l).getName().equalsIgnoreCase(listTitle)) {
+                                                 doListExistLocal = true;
+                                                 if (!statusOnList) {
+                                                     db.deleteShoppinglist(shoppingLists.get(l).getId());
+                                                     if (updateIntent) {
+                                                         swipeRefreshLayout.setRefreshing(false);
+                                                     }
+                                                     Intent intent = new Intent(context, MainActivity.class);
+                                                     context.startActivity(intent);
+                                                 } else {
 
-                                            itemsFromLocal = shoppingListDetails(shoppingLists.get(l).getId());
-                                            //for loop to all items in one list
-                                            for (int i = 0; i < datas.length(); i++) {
+                                                     itemsFromLocal = shoppingListDetails(shoppingLists.get(l).getId());
+                                                     //for loop to all items in one list
+                                                     for (int i = 0; i < datas.length(); i++) {
 
-                                                JSONObject jdata = (JSONObject) datas.get(i);
-                                                Map<String, ?> data = $.map(jdata);
+                                                         JSONObject jdata = (JSONObject) datas.get(i);
+                                                         Map<String, ?> data = $.map(jdata);
 
-                                                String itemTitle = data.get("item").toString();
-                                                boolean statusItem = Boolean.valueOf(data.get("status").toString());
+                                                         String itemTitle = data.get("item").toString();
+                                                         boolean statusItem = Boolean.valueOf(data.get("status").toString());
 
 
-                                                ShoppingListDetail foundInDetailLocal = checkIfItemExistLocal(itemsFromLocal, itemTitle);
-                                                if (foundInDetailLocal != null && !statusItem) {
-                                                    Log.e("itemDelete", itemTitle);
-                                                    db.deleteShoppinglistDetail(foundInDetailLocal._id);
+                                                         ShoppingListDetail foundInDetailLocal = checkIfItemExistLocal(itemsFromLocal, itemTitle);
+                                                         if (foundInDetailLocal != null && !statusItem) {
+                                                             Log.e("itemDelete", itemTitle);
+                                                             db.deleteShoppinglistDetail(foundInDetailLocal._id);
 
-                                                } else if (foundInDetailLocal == null && statusItem) {
-                                                    //if item does not exist local, then add it to the local DB
-                                                    Log.e("createItem", itemTitle);
-                                                    db.createDetail(itemTitle, shoppingLists.get(l).getId());
-                                                }
+                                                         } else if (foundInDetailLocal == null && statusItem) {
+                                                             //if item does not exist local, then add it to the local DB
+                                                             Log.e("createItem", itemTitle);
+                                                             db.createDetail(itemTitle, shoppingLists.get(l).getId());
+                                                         }
 
-                                            }
+                                                     }
 
-                                        }
-                                        //item title found - then break
-                                        break;
-                                    }
-                                }
+                                                 }
+                                                 //item title found - then break
+                                                 break;
+                                             }
+                                         }
 
-                                //if list do no exist local and status = true, then create
-                                if (!doListExistLocal && statusOnList) {
-                                    Log.e("createList", listTitle);
-                                    int newShoppingListId = (int) db.createShoppingList(listTitle, dateNote, username);
+                                         //if list do no exist local and status = true, then create
+                                         if (!doListExistLocal && statusOnList) {
+                                             Log.e("createList", listTitle);
+                                             int newShoppingListId = (int) db.createShoppingList(listTitle, dateNote, username);
 
-                                    for (int k = 0; k < datas.length(); k++) {
-                                        JSONObject jdata = (JSONObject) datas.get(k);
-                                        Map<String, ?> data = $.map(jdata);
+                                             for (int k = 0; k < datas.length(); k++) {
+                                                 JSONObject jdata = (JSONObject) datas.get(k);
+                                                 Map<String, ?> data = $.map(jdata);
 
-                                        String itemTitle = data.get("item").toString();
-                                        boolean statusItem = Boolean.valueOf(data.get("status").toString());
-                                        if (statusItem) {
-                                            db.createDetail(itemTitle, newShoppingListId);
-                                        }
-                                    }
-                                }
+                                                 String itemTitle = data.get("item").toString();
+                                                 boolean statusItem = Boolean.valueOf(data.get("status").toString());
+                                                 if (statusItem) {
+                                                     db.createDetail(itemTitle, newShoppingListId);
+                                                 }
+                                             }
+                                         }
 
+                                     }
+
+                                     if (updateIntent) {
+                                         swipeRefreshLayout.setRefreshing(false);
+                                         Intent intent = new Intent(context, MainActivity.class);
+                                         context.startActivity(intent);
+                                     }
+
+
+                                 } catch (JSONException e) {
+                                     e.printStackTrace();
+
+                                 }
+                                 //droidQuery.alert(response.toString());
+                             }
+                         }
+
+                ).error(new Function() {
+                            @Override
+                            public void invoke($ droidQuery, Object... params) {
+                                int statusCode = (Integer) params[1];
+                                String error = (String) params[2];
+                                Log.e("Ajax", statusCode + " " + error);
                             }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                        }
-                        //droidQuery.alert(response.toString());
-                    }
-                }).error(new Function() {
-                    @Override
-                    public void invoke($ droidQuery, Object... params) {
-                        int statusCode = (Integer) params[1];
-                        String error = (String) params[2];
-                        Log.e("Ajax", statusCode + " " + error);
-                    }
                 }));
     }
 
